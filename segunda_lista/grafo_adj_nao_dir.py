@@ -276,7 +276,16 @@ class Grafo:
 
 
 
-
+    def grau(self,vertice):
+        grau_vert = 0
+        indece_vert = self.N.index(vertice)
+        for indece_linha,element_linha in enumerate(self.M):
+            for indece_coluna,element_coluna in enumerate(element_linha):
+               if indece_linha == indece_vert and element_coluna != '-':
+                    grau_vert += element_coluna
+               elif indece_coluna == indece_vert and element_coluna != '-':
+                    grau_vert += element_coluna
+        return grau_vert
 
 
 

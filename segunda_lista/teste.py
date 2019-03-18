@@ -1,4 +1,4 @@
-from grafo_adj_nao_dir import Grafo
+from segunda_lista.grafo_adj_nao_dir import Grafo
 
 g = Grafo()
 g.adicionaVertice('J')
@@ -17,5 +17,4 @@ g.adicionaAresta('C-M')
 g.adicionaAresta('C-T')
 g.adicionaAresta('M-T')
 g.adicionaAresta('T-Z')
-print(g.vertices_nao_adjacentes())
 print(g)
