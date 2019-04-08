@@ -15,46 +15,30 @@ class Grafo:
     SEPARADOR_ARESTA = '-'
     __maior_vertice = 0
 
-    def __init__(self, V=None, M=None):
+    def __init__(self, N=[], M=[]):
         '''
         Constrói um objeto do tipo Grafo. Se nenhum parâmetro for passado, cria um Grafo vazio.
         Se houver alguma aresta ou algum vértice inválido, uma exceção é lançada.
-        :param V: Uma lista dos vértices (ou nodos) do grafo.
+        :param N: Uma lista dos vértices (ou nodos) do grafo.
         :param V: Uma matriz de adjacência que guarda as arestas do grafo. Cada entrada da matriz tem um inteiro que indica a quantidade de arestas que ligam aqueles vértices
         '''
-
-        if V == None:
-            V = list()
-        if M == None:
-            M = list()
-
-        for v in V:
-            if not(Grafo.verticeValido(v)):
+        for v in N:
+            if not(Grafo.vertice_valido(v)):
                 raise VerticeInvalidoException('O vértice ' + v + ' é inválido')
             if len(v) > self.__maior_vertice:
                 self.__maior_vertice = len(v)
 
-        self.N = list(V)
+        self.N = N
 
-        if M == []:
-            for k in range(len(V)):
-                M.append(list())
-                for l in range(len(V)):
-                    if k>l:
-                        M[k].append('-')
-                    else:
-                        M[k].append(0)
-
-
-        if len(M) != len(V):
+        if len(M) != len(N):
             raise MatrizInvalidaException('A matriz passada como parâmetro não tem o tamanho correto')
 
         for c in M:
-            if len(c) != len(V):
+            if len(c) != len(N):
                 raise MatrizInvalidaException('A matriz passada como parâmetro não tem o tamanho correto')
 
-        for i in range(len(V)):
-            for j in range(len(V)):
+        for i in range(len(N)):
+            for j in range(len(N)):
                 '''
                 Verifica se os índices passados como parâmetro representam um elemento da matriz abaixo da diagonal principal.
                 Além disso, verifica se o referido elemento é um traço "-". Isso indica que a matriz é não direcionada e foi construída corretamente.
@@ -63,13 +47,13 @@ class Grafo:
                     raise MatrizInvalidaException('A matriz não representa uma matriz não direcionada')
 
 
-                aresta = V[i] + Grafo.SEPARADOR_ARESTA + V[j]
-                if not(self.arestaValida(aresta)):
+                aresta = N[i] + Grafo.SEPARADOR_ARESTA + N[j]
+                if not(self.aresta_valida(aresta)):
                     raise ArestaInvalidaException('A aresta ' + aresta + ' é inválida')
 
-        self.M = list(M)
+        self.M = M
 
-    def arestaValida(self, aresta=''):
+    def aresta_valida(self, aresta=''):
         '''
         Verifica se uma aresta passada como parâmetro está dentro do padrão estabelecido.
         Uma aresta é representada por um string com o formato a-b, onde:
@@ -92,13 +76,13 @@ class Grafo:
         if i_traco == 0 or aresta[-1] == Grafo.SEPARADOR_ARESTA:
             return False
 
-        if not(self.existeVertice(aresta[:i_traco])) or not(self.existeVertice(aresta[i_traco+1:])):
+        if not(self.existe_vertice(aresta[:i_traco])) or not(self.existe_vertice(aresta[i_traco + 1:])):
             return False
 
         return True
 
     @classmethod
-    def verticeValido(self, vertice: str):
+    def vertice_valido(self, vertice: str):
         '''
         Verifica se um vértice passado como parâmetro está dentro do padrão estabelecido.
         Um vértice é um string qualquer que não pode ser vazio e nem conter o caractere separador.
@@ -107,13 +91,13 @@ class Grafo:
         '''
         return vertice != '' and vertice.count(Grafo.SEPARADOR_ARESTA) == 0
 
-    def existeVertice(self, vertice: str):
+    def existe_vertice(self, vertice: str):
         '''
         Verifica se um vértice passado como parâmetro pertence ao grafo.
         :param vertice: O vértice que deve ser verificado.
         :return: Um valor booleano que indica se o vértice existe no grafo.
         '''
-        return Grafo.verticeValido(vertice) and self.N.count(vertice) > 0
+        return Grafo.vertice_valido(vertice) and self.N.count(vertice) > 0
 
     def __primeiro_vertice_aresta(self, a: str):
         '''
@@ -147,14 +131,14 @@ class Grafo:
         '''
         return self.N.index(self.__segundo_vertice_aresta(a))
 
-    def existeAresta(self, a: str):
+    def existe_aresta(self, a: str):
         '''
         Verifica se uma aresta passada como parâmetro pertence ao grafo.
         :param aresta: A aresta a ser verificada
         :return: Um valor booleano que indica se a aresta existe no grafo.
         '''
         existe = False
-        if Grafo.arestaValida(self, a):
+        if Grafo.aresta_valida(self, a):
             for i in range(len(self.M)):
                 for j in range(len(self.M)):
                     if self.M[self.__indice_primeiro_vertice_aresta(a)][self.__indice_segundo_vertice_aresta(a)]:
@@ -162,7 +146,7 @@ class Grafo:
 
         return existe
 
-    def adicionaVertice(self, v):
+    def adiciona_vertice(self, v):
         '''
         Inclui um vértice no grafo se ele estiver no formato correto.
         :param v: O vértice a ser incluído no grafo.
@@ -171,7 +155,7 @@ class Grafo:
         if v in self.N:
             raise VerticeInvalidoException('O vértice {} já existe'.format(v))
 
-        if self.verticeValido(v):
+        if self.vertice_valido(v):
             if len(v) > self.__maior_vertice:
                 self.__maior_vertice = len(v)
 
@@ -187,13 +171,13 @@ class Grafo:
         else:
             raise VerticeInvalidoException('O vértice ' + v + ' é inválido')
 
-    def adicionaAresta(self, a):
+    def adiciona_aresta(self, a):
         '''
         Adiciona uma aresta ao grafo no formato X-Y, onde X é o primeiro vértice e Y é o segundo vértice
         :param a: a aresta no formato correto
         :raise: lança uma exceção caso a aresta não estiver em um formato válido
         '''
-        if self.arestaValida(a):
+        if self.aresta_valida(a):
             i_a1 = self.__indice_primeiro_vertice_aresta(a)
             i_a2 = self.__indice_segundo_vertice_aresta(a)
             if i_a1 < i_a2:
@@ -209,16 +193,18 @@ class Grafo:
         :param a: a aresta no formato correto
         :raise: lança uma exceção caso a aresta não estiver em um formato válido
         '''
-        if self.arestaValida(a):
-            if self.existeAresta(a):
-                i_a1 = self.__indice_primeiro_vertice_aresta(a)
-                i_a2 = self.__indice_segundo_vertice_aresta(a)
-                if i_a1 < i_a2:
-                    self.M[i_a1][i_a2] -= 1
-                else:
-                    self.M[i_a2][i_a1] -= 1
+        if self.aresta_valida(a):
+            i_a1 = self.__indice_primeiro_vertice_aresta(a)
+            i_a2 = self.__indice_segundo_vertice_aresta(a)
+            if i_a1 < i_a2:
+                self.M[i_a1][i_a2] -= 1
+            else:
+                self.M[i_a2][i_a1] -= 1
         else:
             raise ArestaInvalidaException('A aresta {} é inválida'.format(a))
+
+    def caminho_eleriano(self):
+        pass
 
     def __str__(self):
         '''
@@ -248,79 +234,21 @@ class Grafo:
         return grafo_str
 
 
-    def ha_paralelas(self):
-        aresta_paralela = 2
-        for indece_linha,element_linha in enumerate(self.M):
-            for indece_coluna,element_coluna in enumerate(element_linha):
-                if element_coluna == aresta_paralela:
-                    return True
-
-    def ha_laco(self):
-        nao_ligacao_vertice = 0
-        for indece_linha,element_linha in enumerate(self.M):
-            for indece_coluna,element_coluna in enumerate(element_linha):
-                if indece_coluna == indece_linha:
-                    if element_coluna != nao_ligacao_vertice :
-                        return True
-
-    def vertices_nao_adjacentes(self):
-        nao_ligacao_vertice  = 0
-        separador = '-'
-        lista_nao_adj = []
-        for indece_linha,element_linha in enumerate(self.M):
-            for indece_coluna,element_coluna in enumerate(element_linha):
-                if element_coluna == nao_ligacao_vertice:
-                    lista_nao_adj.append( str(self.N[indece_linha]) + separador + str(self.N[indece_coluna]))
-        return lista_nao_adj
+    def dfsMod(self,cnt,pre,vert):
+        print("cnt: ",cnt,"pre",pre)
+        pre[vert] = cnt
+        cnt += 1
+        for i in range(len(self.N)):
+            print('matriz: ',self.M[vert][i],'pre ',pre[i])
+            if (self.M[vert][i] != 0 and self.M[vert][i] != '-' and pre[i] == -1):
+                self.dfsMod(cnt ,pre,i)
 
 
-
-
-    def grau(self,vertice):
-        grau_vert = 0
-        indece_vert = self.N.index(vertice)
-        for indece_linha,element_linha in enumerate(self.M):
-            for indece_coluna,element_coluna in enumerate(element_linha):
-               if indece_linha == indece_vert and element_coluna != '-':
-                    grau_vert += element_coluna
-               elif indece_coluna == indece_vert and element_coluna != '-':
-                    grau_vert += element_coluna
-        return grau_vert
-
-
-
-    def arestas_sobre_vertice(self,vertice):
-        indece_vert = self.N.index(vertice)
-        list_aresta = []
-        separador = '-'
-        for indece_linha, element_linha in enumerate(self.M):
-            for indece_coluna, element_coluna in enumerate(element_linha):
-                if element_coluna != 0 and element_coluna != separador and indece_coluna == indece_vert:
-                    for i in range(element_coluna):
-                        list_aresta.append( str(self.N[indece_linha]) + separador + str(self.N[indece_coluna]))
-        return list_aresta
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    def busca_grafo(self):
+        cnt  = 0
+        pre =[]
+        for i in range(len(self.N)):
+            pre.append(-1)
+        for i in range(len(self.N)):
+            self.dfsMod(cnt,pre,i)
+            print("pre ",pre)
