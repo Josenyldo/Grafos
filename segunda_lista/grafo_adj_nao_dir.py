@@ -304,6 +304,33 @@ class Grafo:
 
 
 
+    def arestas_sobre_vertice(self,vertice):
+        indece_ver_abr = self.N.index(vertice)
+        nao_ligacao = 0
+        list_arestas = []
+        for indece_linha, elemet_linha in enumerate(self.M):
+            for indece_coluna, elemet_coluna in enumerate(elemet_linha) :
+                if indece_linha == indece_ver_abr and elemet_coluna != '-' and elemet_coluna != nao_ligacao:
+                    list_arestas.append(self.N[indece_linha]+'-'+self.N[indece_coluna])
+                elif (indece_coluna == indece_ver_abr and elemet_coluna!= '-' and elemet_coluna != nao_ligacao):
+                    list_arestas.append(self.N[indece_linha]+'-'+self.N[indece_coluna])
+        return list_arestas
+
+
+    def eh_completo(self):
+        nao_ligacao = 0
+        for indece_linha, elemet_linha in enumerate(self.M):
+            for indece_coluna, elemet_coluna in enumerate(elemet_linha) :
+                if elemet_coluna != '-' and elemet_coluna == nao_ligacao and indece_linha != indece_coluna:
+                    return False
+        return True
+
+
+
+
+
+
+
 
 
 
