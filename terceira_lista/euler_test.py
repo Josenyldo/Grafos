@@ -1,5 +1,5 @@
 import unittest
-from grafo_adj_nao_dir import Grafo
+from terceira_lista.grafo_adj_nao_dir import *
 
 class TestEuler(unittest.TestCase):
 

@@ -234,21 +234,13 @@ class Grafo:
         return grafo_str
 
 
-    def dfsMod(self,cnt,pre,vert):
-        print("cnt: ",cnt,"pre",pre)
-        pre[vert] = cnt
-        cnt += 1
-        for i in range(len(self.N)):
-            print('matriz: ',self.M[vert][i],'pre ',pre[i])
-            if (self.M[vert][i] != 0 and self.M[vert][i] != '-' and pre[i] == -1):
-                self.dfsMod(cnt ,pre,i)
-
-
-    def busca_grafo(self):
-        cnt  = 0
-        pre =[]
-        for i in range(len(self.N)):
-            pre.append(-1)
-        for i in range(len(self.N)):
-            self.dfsMod(cnt,pre,i)
-            print("pre ",pre)
+    def caminho_euleriano(self):
+        impar = 0
+        for linha in self.M:
+            for elemento in linha:
+                if elemento != 0 and elemento != '-':
+                    if elemento %2 != 0:
+                        impar += 1
+        if impar != 2:
+            return False
+        return True
