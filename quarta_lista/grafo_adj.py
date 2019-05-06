@@ -176,3 +176,29 @@ class Grafo:
                         matriz[j][k] = max(matriz[j][k],matriz[i][k])
 
         return matriz
+
+    def verificaVert(self,vert):
+
+        #esse for apenas verficar qual o indice do vertice na lista de vertices
+        for i,e in enumerate(self.N):
+            if vert == e:
+                vert = i
+        print(vert,self.N)
+
+        """for i in range(len(self.N)):
+            for j in range(len(self.N)):
+                
+                print(self.M[i][j])
+"""
+
+
+    def disjktra(self,u,v):
+        verificar_caminhos = [] #faz as verificacoes dos caminhos. Utilizando apenas no processo de encontrar o menor caminho
+        solucao = [] #irah armazernar o menor caminho
+        solucao.append(u)
+        INFINITO = 1000000000
+
+        for i in range(len(self.N)):
+            verificar_caminhos.append(INFINITO)
+        print(verificar_caminhos)
+
