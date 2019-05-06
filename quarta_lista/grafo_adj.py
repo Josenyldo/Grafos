@@ -177,19 +177,21 @@ class Grafo:
 
         return matriz
 
-    def verificaVert(self,vert):
-
+    def verificaVert(self,vert): # esta função retorna os vertices adjancentes o que foi passado como paramento
+        adjacente = [] # armazena os vertices adjacentes
         #esse for apenas verficar qual o indice do vertice na lista de vertices
         for i,e in enumerate(self.N):
             if vert == e:
                 vert = i
-        print(vert,self.N)
 
-        """for i in range(len(self.N)):
-            for j in range(len(self.N)):
-                
-                print(self.M[i][j])
-"""
+        #l = linha e c = coluna
+        for l in range(len(self.N)):
+            for c in range(len(self.N)):
+                if l == vert and self.M[l][c] != 0:
+                    adjacente.append(c)
+        print(adjacente)
+
+
 
 
     def disjktra(self,u,v):
