@@ -177,21 +177,23 @@ class Grafo:
 
         return matriz
 
+
+
     def verificaVert(self,vert): # esta função retorna os vertices adjancentes o que foi passado como paramento
-        adjacente = [] # armazena os vertices adjacentes
+        adjacentes = [] # armazena os vertices adjacentes
         #esse for apenas verficar qual o indice do vertice na lista de vertices
         for i,e in enumerate(self.N):
             if vert == e:
                 vert = i
-
         #l = linha e c = coluna
         for l in range(len(self.N)):
             for c in range(len(self.N)):
                 if l == vert and self.M[l][c] != 0:
-                    adjacente.append(c)
-        print(adjacente)
+                    adjacentes.append(c)
+        return adjacentes
 
-
+    def menorPeso(self,adjs):#retona o vertice com menor peso
+        return min(adjs)
 
 
     def disjktra(self,u,v):
@@ -202,5 +204,6 @@ class Grafo:
 
         for i in range(len(self.N)):
             verificar_caminhos.append(INFINITO)
-        print(verificar_caminhos)
+
+
 
