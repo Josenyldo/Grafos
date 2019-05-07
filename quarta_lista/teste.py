@@ -6,5 +6,5 @@ for i in ['H', 'B', 'C','D','E','F']:
 for i in ['B-H','C-D','F-E','F-C']:
     g_p.adiciona_aresta(i)
 
-print(g_p.verificaVert('F'))
+print(g_p.disjktra('F'))
 print(g_p)

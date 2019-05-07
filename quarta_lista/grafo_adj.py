@@ -196,14 +196,30 @@ class Grafo:
         return min(adjs)
 
 
-    def disjktra(self,u,v):
+    def inicializaInfinito(self,v): # inicialida com com infinito
+        INFINITO = 1000000000
+        verificar_caminhos = []  # faz as verificacoes dos caminhos. Utilizando apenas no processo de encontrar o menor caminho
+        for i in range(len(self.N)):
+            verificar_caminhos.append(INFINITO)
+        return verificar_caminhos
+
+
+    def disjktra(self,u):
+        adjancentes = [] #armazena os vertices adjacentes ao específicado
         verificar_caminhos = [] #faz as verificacoes dos caminhos. Utilizando apenas no processo de encontrar o menor caminho
         solucao = [] #irah armazernar o menor caminho
         solucao.append(u)
-        INFINITO = 1000000000
 
-        for i in range(len(self.N)):
-            verificar_caminhos.append(INFINITO)
+        verificar_caminhos = self.inicializaInfinito(verificar_caminhos)
+
+        adjancentes = self.verificaVert(u)
+        #faz a primeira atualização
+        for i in adjancentes:
+            verificar_caminhos[i] = self.M[self.N.index(u)][i]
+
+
+
+
 
 
 
