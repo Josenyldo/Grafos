@@ -6,5 +6,5 @@ for i in ['A', 'B', 'C']:
 for i in ['A-B', 'B-C']:
     g_c_e.adiciona_aresta(i)
 
-print(g_c_e.euler())
+print(g_c_e)
 #print(g_c_e)
