@@ -276,6 +276,14 @@ class Grafo:
 
 
 
+    def Kruskal(self):
+        prioridade_peso = [] #amarzena a lista de prioridade dos pesos das aresta
+        for i in range(len(self.N)):
+            for j in range(len(self.N)):
+                if self.M[i][j] != "-" and self.M[i][j] != 0:
+                    prioridade_peso.append(self.M[i][j])
 
+        prioridade_peso.sort()
+        return prioridade_peso
 
 
