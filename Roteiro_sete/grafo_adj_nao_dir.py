@@ -247,7 +247,8 @@ class Grafo:
                 visitados[v] = True
                 pilha.append(v)
 
-                achou == False
+                achou = False
             for i in range(self.N):
                 for j in range(self.N):
-                    if(visitados[i] == False and self.M)
+                    if(visitados[i] == False and self.M):
+                        pass
