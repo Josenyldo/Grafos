@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from copy import deepcopy
+
 class VerticeInvalidoException(Exception):
     pass
 
@@ -233,22 +235,56 @@ class Grafo:
 
         return grafo_str
 
+    def arestasAdj(self, v):
+        matriz = deepcopy(self.M)
+        listaAdj = []
+        for i in range(len(self.N)):
+            if (self.M[v][i] == '-'):
+                if (self.M[i][v] > 0):
+                    listaAdj.append(self.N[v])
+            else:
+                if (self.M[v][i] > 0):
+                    listaAdj.append(self.N[i])
 
-    def DFS(self,v):# v tem que ser o indice do vertice
-        pilha = [False]
-        visitados = [] #armazena os vertices que já visitados pela dfs
+        return listaAdj
 
-        #marca todos os vertices como não visitados
-        for i in range(self.N):
+    def DFS(self, x):  # v tem que ser o indice do vertice
+        v = self.N.index(x)
+        vertices = self.N
+        pilha = []
+        visitados = []  # armazena os vertices já visitados
+        novoVert = 0
+        for i in range(len(vertices)):  # marca todos como não visitados
             visitados.append(False)
 
-        while (True):
-            if(visitados[v]==False):#verifico se o vertice foi visitado
-                visitados[v] = True
-                pilha.append(v)
+        while True:
+            adj = self.arestasAdj(v)
 
-                achou = False
-            for i in range(self.N):
-                for j in range(self.N):
-                    if(visitados[i] == False and self.M):
-                        pass
+            if visitados[v] == False:  # verifica se o vertice foi visitado
+                print(vertices[v])
+                visitados[v] = True  # marca como visitado
+                pilha.append(v)  # insere 'v' na pilha
+
+            achou = False
+
+            # o for tem que ser nas arestas adjacentes e expecificamente, pois é uma em cada vertices.
+            # Vc nao pode soma ao vertice, porque vc esta definindo a ordem da busca, isso nao pode pois que decide isso e o grafo
+            # entao, temos que ir pelos os vertices adjacente. Como vc implemente uma funcao que retorna os vertices, adjacente ficou, bom
+
+            for i in adj:  # busca por um vizinho não visitado
+                if visitados[self.N.index(i)] == False:
+                    novoVert = self.N.index(i)
+                    achou = True
+                    break
+
+            if achou:
+                v = novoVert
+            else:  # se todos os vizinhos estão visitados ou não existem vizinhos
+                pilha.pop()  # remove da pilha
+                tamPilha = len(pilha)
+                try:
+                    v = pilha[tamPilha - 1]
+                except IndexError:
+                    pass
+                if len(pilha) == 0:  # se a pilha ficar vazia, então termina a busca
+                    break
