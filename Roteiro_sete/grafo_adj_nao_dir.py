@@ -276,7 +276,6 @@ class Grafo:
                     novoVert = self.N.index(i)
                     achou = True
                     break
-
             if achou:
                 v = novoVert
             else:  # se todos os vizinhos estão visitados ou não existem vizinhos
